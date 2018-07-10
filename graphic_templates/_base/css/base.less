@@ -1,71 +1,180 @@
 /*
  * Colors
  */
-@red1       : #6C2315;
-@red2       : #A23520;
-@red3       : #D8472B;
-@red4       : #E27560;
-@red5       : #ECA395;
-@red6       : #F5D1CA;
+ //Breakpoints
+ @xxlarge: 1400px;
+ @xlarge: 1200px;
+ @large: 1000px; //PB fixed width
+ @med: 768px; //iPad Portrait
+ @small: 480px; //drop font size for phone
+ @xsmall: 300px;
 
-@orange1    : #714616;
-@orange2    : #AA6A21;
-@orange3    : #E38D2C;
-@orange4    : #EAAA61;
-@orange5    : #F1C696;
-@orange6    : #F8E2CA;
+ @allBreakpoints: @xxlarge, @xlarge, @large, @med, @small, @xsmall;
+ @allBreakpointNames: xxl, xl, lg, md, sm, xs;
 
-@yellow1    : #77631B;
-@yellow2    : #B39429;
-@yellow3    : #EFC637;
-@yellow4    : #F3D469;
-@yellow5    : #F7E39B;
-@yellow6    : #FBF1CD;
+ // Max widths
+ @contentMax: 1200px;
+ @contentMaxNarrow: 1000px;
+ @textWidth: 600px;
+ @textWidthXXL: 720px;
 
-@teal1      : #0B403F;
-@teal2      : #11605E;
-@teal3      : #17807E;
-@teal4      : #51A09E;
-@teal5      : #8BC0BF;
-@teal6      : #C5DFDF;
+ /*
+     Number of columns in the grid
+     DO NOT TOUCH UNLESS ABSOLUTELY SURE
+ */
+ @grid-columns: 12;
 
-@blue1      : #28556F;
-@blue2      : #3D7FA6;
-@blue3      : #51AADE;
-@blue4      : #7DBFE6;
-@blue5      : #A8D5EF;
-@blue6      : #D3EAF7;
+ //Just used in IE fixes could roll into grid setup too
+ //dflt = default
+
+ @gutter-class-names: default, pg-grid--guttersLg, pg-grid--guttersXl;
+ @gutter-sizes: 0.5em, 0, 1, 1.5;
+
+ //Theme colors....
+
+ /*****************
+ * There are two list variables at the bottom of this file.
+ * If you add a color to this file add it to one or both of the list variables
+ ****************/
+
+ // @navBlack: #000;
+ // @hoverGray: #5A5A5A;
+ // @lightGray: #d5d5d5;
+ // @lightText: #6e6e6e;
+
+ /* UI grayscale; runs darkest to lightest */
+ @ui-black0: #000000;
+ @ui-black1: #2a2a2a;
+ @ui-black2: #5a5a5a;
+
+ @ui-gray0: #6e6e6e;
+ @ui-gray1: #969696;
+ @ui-gray2: #AAAAAA;
+
+ @ui-lightGray0: #d5d5d5;
+ @ui-lightGray1: #e9e9e9;
+ @ui-lightGray2: #f1f1f1;
+
+ /* Other UI colors */
+ @linkBlue:#1955a5;
+ @linkBlue-hover: @linkBlue;
+ @updateRed: #A94442;
+
+ /* Social media colors */
+ @facebook: #3b5998;
+ @facebook-hover: #5a78b4;
+ @twitter: #55acee;
+ @twitter-hover: #5fc0ff;
+ @email: #bd2a32;
+ @google-plus: #dd4b39;
+ @linkedin: #007bb6;
+ @pinterest: #cb2027;
+ @reddit: #ff5700;
+ @stumbleupon: #EB4823;
+ @tumblr: #32506d;
+
+ //Charbuilder colors
+ @black0: #231f20;
+ @black1: #808284;
+ @black2: #b1b3b5;
+ @black3: #e6e7e8;
+
+ @gray0: #585852;
+ @gray1: #80817c;
+ @gray2: #a7a8a3;
+ @gray3: #d1d2cd;
+ @gray4: #efefea;
+
+ @brown0: #693323;
+ @brown1: #916f63;
+ @brown2: #bba49a;
+ @brown3: #e6dbd6;
+
+ @red0: #ee645c;
+ @red1: #f69687;
+ @red2: #fabeb4;
+ @red3: #fde7e1;
+
+ @orange0: #f68b28;
+ @orange1: #fcc691;
+ @orange2: #fdd9ba;
+ @orange3: #feeada;
+
+ @yellow0: #d7c944;
+ @yellow1: #ebe08c;
+ @yellow2: #f2ebbc;
+ @yellow3: #f4f2de;
+
+ @green0: #00b6bd;
+ @green1: #77cdd5;
+ @green2: #b4e1e4;
+ @green3: #d5edef;
+
+ @blue0: #006f91;
+ @blue1: #7caec6;
+ @blue2: #b4d5e5;
+ @blue3: #d5e7f0;
+
+ @democrat0: #3579a8;
+ @democrat1: #559dbe;
+ @democrat2: #b4d5e5;
+
+ @republican0: #dc5147;
+ @republican1: #de7c7d;
+ @republican2: #e9c5c5;
+
+ @libertarian0: #efb75a;
+ @libertarian1: #ffda93;
+ @libertarian2: #ffebb9;
+
+ @greenparty0: #759b47;
+ @greenparty1: #9db275;
+ @greenparty2: #cbd8b7;
+
+ @tossup0: #9a629b;
+ @tossup1: #b792b9;
+ @tossup2: #d4bbd7;
+
+ @muted-red: #A56A6B;
+ @muted-orange: #AF7852;
+ @muted-yellow: #BBA135;
+ @muted-green: #6F917B;
+ @muted-blue: #6796B0;
+ @muted-purple: #835B89;
+
+ // FONTS
+ @franklin-bold: 'FranklinITCProBold',Helvetica,Arial,sans-serif;
+ @franklin-light: 'FranklinITCProLight',Helvetica,Arial,sans-serif;
+ @franklin-thin: 'FranklinITCProThin',Helvetica,Arial,sans-serif;
+ @georgia: Georgia, serif;
+ @postoni-standard: "PostoniStandardRegular",Georgia,serif;
+ @postoni-standard-bold: "PostoniStandardBold",Georgia,serif;
+ @postoni-standard-italic: "PostoniStandardItalic",Georgia,serif;
+ @postoni-standard-bold-italic: "PostoniStandardBoldItalic",Georgia,serif;
 
 /*
  * Fonts
  */
-.gotham() {
-    font-family: 'Gotham SSm',Helvetica,Arial,sans-serif;
+.postoni() {
+    font-family: 'PostoniStandardRegular',Helvetica,Arial,sans-serif;
     font-weight: normal;
     font-weight: 400;
 }
 
-// Normal Knockout
-.knockout() {
-    font-family: 'Knockout 31 4r','Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+// Normal Georgia
+.georgia() {
+    font-family: Georgia, serif;
     font-weight: normal;
 }
 
-// Knockout, uppercased
-.knockout-upper() {
+// Franklin, uppercased
+.franklin-upper() {
     .knockout();
     text-transform: uppercase;
 }
 
-// Knockout for headings
-.knockout-header() {
-    .knockout-upper();
-    letter-spacing: 0.05em;
-    -webkit-font-smoothing: antialiased;
-}
-
 .sans-serif() {
-    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 /*
@@ -90,27 +199,28 @@ html { -webkit-text-size-adjust: none; }
 body {
     margin: 0;
     padding: 33px 0;
-    font: 14px/1.4 Helvetica, Arial, sans-serif;
-    color: #555;
+    font: 14px/1.4 @franklin-light, Helvetica, Arial, sans-serif;
+    color: @black0;
 }
 
 h1 {
-    margin: 0 0 33px 0;
+    margin: 0 0 24px 0;
     font-size: 20px;
-    color: #666;
-    font-family: 'Gotham SSm',Helvetica,Arial,sans-serif;
+    color: @black0;
+    font-family: @franklin-bold,Helvetica,Arial,sans-serif;
     font-weight: normal;
-    line-height: 1.3;
-    font-weight: 400;
+    line-height: 24px;
+    font-weight: 800;
     -webkit-font-smoothing: antialiased;
 }
 
 h2 {
+    font: 14px/1.4 @franklin-thin, Arial, sans-serif;
     font-weight: normal;
-    color: #777;
-    font-size: 12px;
+    color: @black0;
+    font-size: 16px;
     margin: -22px 0 22px 0;
-    line-height: 1.6;
+    line-height: 19px;
 }
 
 h3 {
@@ -135,7 +245,7 @@ h3 {
 
     h4 {
         margin: 2px 0 7px 0;
-        color: #666;
+        color: @black1;
         font-size: 11px;
     }
 }
@@ -150,7 +260,7 @@ h3 {
 
 .footer p { font-style: italic; }
 .footer p em { font-style: normal; }
-.footnotes p strong { color: #666; }
+.footnotes p strong { color: @black1; }
 
 a, a:link, a:visited {
     color: #4774CC;
@@ -199,7 +309,7 @@ a:hover, a:active { color: #bccae5; }
         label {
             white-space: nowrap;
             font-size: 12px;
-            color: #666;
+            color: @black1;
             font-weight: normal;
             -webkit-font-smoothing: antialiased;
         }
@@ -241,7 +351,7 @@ svg { overflow: hidden; }
 }
 
 .zero-line  {
-    stroke: #666;
+    stroke: @black1;
     stroke-width: 1px;
     shape-rendering: crispEdges;
 }
@@ -251,7 +361,7 @@ rect {
     shape-rendering: crispEdges;
 }
 
-.bars rect { fill: @teal3; }
+.bars rect { fill: @blue0; }
 
 .labels {
     position: absolute;
@@ -265,7 +375,7 @@ rect {
         text-align: right;
         font-size: 12px;
         line-height: 1.3;
-        color: #666;
+        color: @black1;
         display: table;
         -webkit-font-smoothing: antialiased;
 
