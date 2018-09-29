@@ -44,14 +44,9 @@ var formatStyle = function(props) {
 /*
  * Create a SVG tansform for a given translation.
  */
-var makeTranslate = function(x, y) {
-    var transform = d3.transform();
-
-    transform.translate[0] = x;
-    transform.translate[1] = y;
-
-    return transform.toString();
-}
+ let makeTranslate = function(x, y) {
+     return 'translate(' + x + ',' + y + ')';
+ }
 
 /*
  * Parse a url parameter by name.

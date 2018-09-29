@@ -3,17 +3,17 @@
  */
 
 // Global config
-var DEFAULT_WIDTH = 600;
-var MOBILE_THRESHOLD = 500;
+let DEFAULT_WIDTH = 600;
+let MOBILE_THRESHOLD = 500;
 
 // D3 formatters
-var fmtComma = d3.format(',');
-var fmtYearAbbrev = d3.time.format('%y');
-var fmtYearFull = d3.time.format('%Y');
-var fmtMonthNum = d3.time.format('%m');
+let fmtComma = d3.format(',');
+let fmtYearAbbrev = d3.timeParse('%y');
+let fmtYearFull = d3.timeParse('%Y');
+let fmtMonthNum = d3.timeParse('%m');
 
-var formatFullDate = function(d) {
+let formatFullDate = function(d) {
     // Output example: Dec. 23, 2014
-    var fmtDayYear = d3.time.format('%e, %Y');
+    let fmtDayYear = d3.timeParse('%e, %Y');
     return getAPMonth(d) + ' ' + fmtDayYear(d).trim();
 };

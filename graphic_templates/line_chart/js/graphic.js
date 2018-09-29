@@ -1,12 +1,12 @@
 // Global vars
-var pymChild = null;
-var isMobile = false;
-var dataSeries = [];
+let pymChild = null;
+let isMobile = false;
+const dataSeries = [];
 
 /*
  * Initialize graphic
  */
-var onWindowLoaded = function() {
+const onWindowLoaded = () => {
     if (Modernizr.svg) {
         formatData();
 
@@ -29,21 +29,24 @@ var onWindowLoaded = function() {
 /*
  * Format graphic data for processing by D3.
  */
-var formatData = function() {
-    DATA.forEach(function(d) {
-        d['date'] = d3.time.format('%m/%d/%y').parse(d['date']);
+const formatData = () => {
+    let parseDate = d3.timeParse('%m/%d/%y');
 
-        for (var key in d) {
+    for (let d of DATA) {
+        console.log(d);
+        d['date'] = parseDate(d['date']);
+
+        for (let key in d) {
             if (key != 'date' && d[key] != null && d[key].length > 0) {
                 d[key] = +d[key];
             }
         }
-    });
+    }
 
     /*
      * Restructure tabular data for easier charting.
      */
-    for (var column in DATA[0]) {
+    for (let column in DATA[0]) {
         if (column == 'date') {
             continue;
         }
@@ -66,7 +69,7 @@ var formatData = function() {
 /*
  * Render the graphic(s). Called by pym with the container width.
  */
-var render = function(containerWidth) {
+const render = (containerWidth) => {
     if (!containerWidth) {
         containerWidth = DEFAULT_WIDTH;
     }
@@ -93,26 +96,27 @@ var render = function(containerWidth) {
 /*
  * Render a line chart.
  */
-var renderLineChart = function(config) {
+const renderLineChart = (config) => {
+    // console.log(config);
     /*
      * Setup
      */
-    var dateColumn = 'date';
-    var valueColumn = 'amt';
+    let dateColumn = 'date';
+    let valueColumn = 'amt';
 
-    var aspectWidth = isMobile ? 4 : 16;
-    var aspectHeight = isMobile ? 3 : 9;
+    let aspectWidth = isMobile ? 4 : 16;
+    let aspectHeight = isMobile ? 3 : 9;
 
-    var margins = {
+    const margins = {
         top: 5,
         right: 75,
         bottom: 20,
         left: 30
     };
 
-    var ticksX = 10;
-    var ticksY = 10;
-    var roundTicksFactor = 5;
+    let ticksX = 10;
+    let ticksY = 10;
+    let roundTicksFactor = 5;
 
     // Mobile
     if (isMobile) {
@@ -122,23 +126,23 @@ var renderLineChart = function(config) {
     }
 
     // Calculate actual chart dimensions
-    var chartWidth = config['width'] - margins['left'] - margins['right'];
-    var chartHeight = Math.ceil((config['width'] * aspectHeight) / aspectWidth) - margins['top'] - margins['bottom'];
+    let chartWidth = config['width'] - margins['left'] - margins['right'];
+    let chartHeight = Math.ceil((config['width'] * aspectHeight) / aspectWidth) - margins['top'] - margins['bottom'];
 
     // Clear existing graphic (for redraw)
-    var containerElement = d3.select(config['container']);
+    let containerElement = d3.select(config['container']);
     containerElement.html('');
 
     /*
      * Create D3 scale objects.
      */
-    var xScale = d3.time.scale()
-        .domain(d3.extent(config['data'][0]['values'], function(d) {
+    let xScale = d3.scaleTime()
+            .domain(d3.extent(config['data'][0]['values'], function(d) {
             return d['date'];
         }))
-        .range([ 0, chartWidth ])
+        .range([ 0, chartWidth ]);
 
-    var min = d3.min(config['data'], function(d) {
+    let min = d3.min(config['data'], function(d) {
         return d3.min(d['values'], function(v) {
             return Math.floor(v[valueColumn] / roundTicksFactor) * roundTicksFactor;
         })
@@ -148,24 +152,24 @@ var renderLineChart = function(config) {
         min = 0;
     }
 
-    var max = d3.max(config['data'], function(d) {
+    let max = d3.max(config['data'], function(d) {
         return d3.max(d['values'], function(v) {
             return Math.ceil(v[valueColumn] / roundTicksFactor) * roundTicksFactor;
         })
     });
 
-    var yScale = d3.scale.linear()
+    let yScale = d3.scaleLinear()
         .domain([min, max])
         .range([chartHeight, 0]);
 
-    var colorScale = d3.scale.ordinal()
+    let colorScale = d3.scaleOrdinal()
         .domain(_.pluck(config['data'], 'name'))
         .range([COLORS['red3'], COLORS['yellow3'], COLORS['blue3'], COLORS['orange3'], COLORS['teal3']]);
 
     /*
      * Render the HTML legend.
      */
-    var legend = containerElement.append('ul')
+    let legend = containerElement.append('ul')
         .attr('class', 'key')
         .selectAll('g')
         .data(config['data'])
@@ -187,10 +191,10 @@ var renderLineChart = function(config) {
     /*
      * Create the root SVG element.
      */
-    var chartWrapper = containerElement.append('div')
+    let chartWrapper = containerElement.append('div')
         .attr('class', 'graphic-wrapper');
 
-    var chartElement = chartWrapper.append('svg')
+    let chartElement = chartWrapper.append('svg')
         .attr('width', chartWidth + margins['left'] + margins['right'])
         .attr('height', chartHeight + margins['top'] + margins['bottom'])
         .append('g')
@@ -199,9 +203,7 @@ var renderLineChart = function(config) {
     /*
      * Create D3 axes.
      */
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient('bottom')
+    let xAxis = d3.axisBottom(xScale)
         .ticks(ticksX)
         .tickFormat(function(d, i) {
             if (isMobile) {
@@ -211,9 +213,7 @@ var renderLineChart = function(config) {
             }
         });
 
-    var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient('left')
+    let yAxis = d3.axisLeft(yScale)
         .ticks(ticksY);
 
     /*
@@ -231,11 +231,11 @@ var renderLineChart = function(config) {
     /*
      * Render grid to chart.
      */
-    var xAxisGrid = function() {
+    let xAxisGrid = function() {
         return xAxis;
     }
 
-    var yAxisGrid = function() {
+    let yAxisGrid = function() {
         return yAxis;
     }
 
@@ -269,8 +269,8 @@ var renderLineChart = function(config) {
     /*
      * Render lines to chart.
      */
-    var line = d3.svg.line()
-        .interpolate('monotone')
+    let line = d3.line()
+        .curve(d3.curveMonotoneX)
         .x(function(d) {
             return xScale(d[dateColumn]);
         })
@@ -300,20 +300,20 @@ var renderLineChart = function(config) {
         .data(config['data'])
         .enter().append('text')
             .attr('x', function(d, i) {
-                var last = d['values'][d['values'].length - 1];
+                let last = d['values'][d['values'].length - 1];
 
                 return xScale(last[dateColumn]) + 5;
             })
             .attr('y', function(d) {
-                var last = d['values'][d['values'].length - 1];
+                let last = d['values'][d['values'].length - 1];
 
                 return yScale(last[valueColumn]) + 3;
             })
             .text(function(d) {
-                var last = d['values'][d['values'].length - 1];
-                var value = last[valueColumn];
+                let last = d['values'][d['values'].length - 1];
+                let value = last[valueColumn];
 
-                var label = last[valueColumn].toFixed(1);
+                let label = last[valueColumn].toFixed(1);
 
                 if (!isMobile) {
                     label = d['name'] + ': ' + label;
