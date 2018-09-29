@@ -1,12 +1,12 @@
-// Global vars
-var pymChild = null;
-var isMobile = false;
-var skipLabels = [ 'label', 'values' ];
+// Global lets
+let pymChild = null;
+let isMobile = false;
+const skipLabels = [ 'label', 'values' ];
 
 /*
  * Initialize the graphic.
  */
-var onWindowLoaded = function() {
+const onWindowLoaded = () => {
     if (Modernizr.svg) {
         formatData();
 
@@ -29,20 +29,21 @@ var onWindowLoaded = function() {
 /*
  * Format graphic data for processing by D3.
  */
-var formatData = function() {
-    DATA.forEach(function(d) {
-        var x0 = 0;
+const formatData = () => {
+
+    for (let d of DATA) {
+        let x0 = 0;
 
         d['values'] = [];
 
-        for (var key in d) {
+        for (let key in d) {
             if (_.contains(skipLabels, key)) {
                 continue;
             }
 
             d[key] = +d[key];
 
-            var x1 = x0 + d[key];
+            let x1 = x0 + d[key];
 
             d['values'].push({
                 'name': key,
@@ -53,13 +54,13 @@ var formatData = function() {
 
             x0 = x1;
         }
-    });
+    };
 }
 
 /*
  * Render the graphic(s). Called by pym with the container width.
  */
-var render = function(containerWidth) {
+const render = (containerWidth) => {
     if (!containerWidth) {
         containerWidth = DEFAULT_WIDTH;
     }
@@ -86,45 +87,45 @@ var render = function(containerWidth) {
 /*
  * Render a stacked bar chart.
  */
-var renderStackedBarChart = function(config) {
+const renderStackedBarChart = (config) => {
     /*
      * Setup
      */
-    var labelColumn = 'label';
+    let labelColumn = 'label';
 
-    var barHeight = 30;
-    var barGap = 5;
-    var labelWidth = 60;
-    var labelMargin = 6;
-    var valueGap = 6;
+    let barHeight = 30;
+    let barGap = 5;
+    let labelWidth = 60;
+    let labelMargin = 6;
+    let valueGap = 6;
 
-    var margins = {
+    let margins = {
         top: 0,
         right: 20,
         bottom: 20,
         left: (labelWidth + labelMargin)
     };
 
-    var ticksX = 4;
-    var roundTicksFactor = 100;
+    let ticksX = 4;
+    let roundTicksFactor = 100;
 
     if (isMobile) {
         ticksX = 2;
     }
 
     // Calculate actual chart dimensions
-    var chartWidth = config['width'] - margins['left'] - margins['right'];
-    var chartHeight = ((barHeight + barGap) * config['data'].length);
+    let chartWidth = config['width'] - margins['left'] - margins['right'];
+    let chartHeight = ((barHeight + barGap) * config['data'].length);
 
     // Clear existing graphic (for redraw)
-    var containerElement = d3.select(config['container']);
+    let containerElement = d3.select(config['container']);
     containerElement.html('');
 
     /*
      * Create D3 scale objects.
      */
-    var min = d3.min(config['data'], function(d) {
-        var lastValue = d['values'][d['values'].length - 1];
+    let min = d3.min(config['data'], function(d) {
+        let lastValue = d['values'][d['values'].length - 1];
         return Math.floor(lastValue['x1'] / roundTicksFactor) * roundTicksFactor;
      });
 
@@ -132,16 +133,16 @@ var renderStackedBarChart = function(config) {
         min = 0;
     }
 
-    var max = d3.max(config['data'], function(d) {
-        var lastValue = d['values'][d['values'].length - 1];
+    let max = d3.max(config['data'], function(d) {
+        let lastValue = d['values'][d['values'].length - 1];
         return Math.ceil(lastValue['x1'] / roundTicksFactor) * roundTicksFactor;
     });
 
-    var xScale = d3.scale.linear()
+    let xScale = d3.scaleLinear()
         .domain([min, max])
         .rangeRound([0, chartWidth]);
 
-    var colorScale = d3.scale.ordinal()
+    let colorScale = d3.scaleOrdinal()
         .domain(d3.keys(config['data'][0]).filter(function(d) {
             if (!_.contains(skipLabels, d)) {
                 return d;
@@ -152,7 +153,7 @@ var renderStackedBarChart = function(config) {
     /*
      * Render the legend.
      */
-    var legend = containerElement.append('ul')
+    let legend = containerElement.append('ul')
 		.attr('class', 'key')
 		.selectAll('g')
 			.data(colorScale.domain())
@@ -174,10 +175,10 @@ var renderStackedBarChart = function(config) {
     /*
      * Create the root SVG element.
      */
-    var chartWrapper = containerElement.append('div')
+    let chartWrapper = containerElement.append('div')
         .attr('class', 'graphic-wrapper');
 
-    var chartElement = chartWrapper.append('svg')
+    let chartElement = chartWrapper.append('svg')
         .attr('width', chartWidth + margins['left'] + margins['right'])
         .attr('height', chartHeight + margins['top'] + margins['bottom'])
         .append('g')
@@ -186,9 +187,7 @@ var renderStackedBarChart = function(config) {
     /*
      * Create D3 axes.
      */
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient('bottom')
+    let xAxis = d3.axisBottom(xScale)
         .ticks(ticksX)
         .tickFormat(function(d) {
             return d + '%';
@@ -205,7 +204,7 @@ var renderStackedBarChart = function(config) {
     /*
      * Render grid to chart.
      */
-    var xAxisGrid = function() {
+    const xAxisGrid = () => {
         return xAxis;
     };
 
@@ -220,7 +219,7 @@ var renderStackedBarChart = function(config) {
     /*
      * Render bars to chart.
      */
-     var group = chartElement.selectAll('.group')
+     let group = chartElement.selectAll('.group')
          .data(config['data'])
          .enter().append('g')
              .attr('class', function(d) {
@@ -275,8 +274,8 @@ var renderStackedBarChart = function(config) {
  				return xScale(d['x1']);
             })
             .attr('dx', function(d) {
-                var textWidth = this.getComputedTextLength();
-                var barWidth = Math.abs(xScale(d['x1']) - xScale(d['x0']));
+                let textWidth = this.getComputedTextLength();
+                let barWidth = Math.abs(xScale(d['x1']) - xScale(d['x0']));
 
                 // Hide labels that don't fit
                 if (textWidth + valueGap * 2 > barWidth) {
