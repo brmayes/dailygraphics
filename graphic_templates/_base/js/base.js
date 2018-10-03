@@ -3,8 +3,8 @@
  */
 
 // Global config
-let DEFAULT_WIDTH = 600;
-let MOBILE_THRESHOLD = 500;
+var DEFAULT_WIDTH = 300;
+var MOBILE_THRESHOLD = 500;
 
 // D3 formatters
 let fmtComma = d3.format(',');
